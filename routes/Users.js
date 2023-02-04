@@ -35,6 +35,9 @@ router.get("/:id", (req, res) => {
 // Se puede utilizar aca a 'for' loop tambien
     try {
         const results = users.filter(user => user.id == req.params.id);
+        if(!results){
+            res.status(404).send('Usuario no existe')
+        }
         res.json(results);
     }
     catch (error){

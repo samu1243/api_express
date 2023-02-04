@@ -3,6 +3,97 @@ const express = require("express");
 const router = express.Router();
 router.use(express.json());
 
+
+//Documentacion 
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *      Categoria:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              tipo:
+ *                  type: string
+ * paths:
+ * 
+ *  /categorias:
+ *      get:
+ *          summary: Obtiene todas las categorias
+ *          responses:
+ *              '200':
+ *                  description: Lista de todas las categorias
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: array
+ *                              items:
+ *                                  $ref: '#/components/schemas/Categoria'
+ * 
+ *  /categorias/{id}:
+ *      get:
+ *          summary: Obtiene una sola categoria
+ *          parameters:
+ *              - in: path
+ *                name: id
+ *          responses:
+ *              '200':
+ *                  description: Categoria individual
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Categoria'
+ *              '404':
+ *                  description: La categoria no fue encontrada
+ * 
+ *  /categorias/add:
+ *      post:
+ *          summary: Crea una nueva categoria
+ *          tags:   [Categorias]
+ *          requestBody:
+ *              required: True
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Categoria'
+ *          responses:
+ *              200:
+ *                  description: Categoria creada satisfactoriamente
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Categoria'
+ *              500:
+ *                  description: Server error
+ * 
+ */
+
+ /** 
+ * @openapi
+ *  /categorias/{id}:
+ *      put:
+ *          summary: Modifica una categoria por su id
+ *          tags: [Categoria]
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Categoria'
+ *          responses:
+ *              200:
+ *                  description: La categoria fue modificada
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Categoria'
+ *              404:
+ *                  description: La categoria no fue encontrada
+ * 
+ */
+
 const listaCategorias = [{
     id: 1,
     tipo: 'vehiculo'
@@ -23,6 +114,9 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const result = listaCategorias.filter(categorias => categorias.id == req.params.id)
+    if(!(result)){
+        res.status(404).send('Categoria no existe')
+    }
     res.json(result)
 })
 
