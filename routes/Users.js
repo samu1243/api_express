@@ -5,7 +5,7 @@ router.use(express.json());
 
 // datos de prueba
 
-const users = [{
+ const users = [{
     id: 1,
     nombre: "juan",
 },
@@ -21,6 +21,7 @@ const users = [{
     id: 4,
     nombre: "andres",
 }];
+
 
 // Ruta para conseguir todos los usuarios
 
@@ -51,7 +52,7 @@ router.post('/register', async (req, res) => {
         let userExists = false
 
         const {id, nombre} = req.body;
-
+        // Chequeo si existe ya un nombre. Con una base de datos como MongoDB se puede utilizar findOne para mas facilidad
         users.forEach((user) =>{
             if (user.nombre.toLowerCase() == nombre.toLowerCase()){
                 userExists = true
@@ -60,6 +61,7 @@ router.post('/register', async (req, res) => {
         if (userExists){
            return res.status(409).json({success: false, message: 'Usuario ya existe'})
         }
+        //Revisa si ambos campos han sido rellenados, una forma de crear id sin necesidad de rellenarla es con id: users.length + 1
         if (!(id && nombre)){
            return res.status(400).send('Rellena los campos')
         }

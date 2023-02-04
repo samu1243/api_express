@@ -4,6 +4,7 @@ const port = 3000
 
 const userRoute = require('./routes/Users')
 const categoriasRoute = require('./routes/Categorias')
+const productosRoute = require('./routes/Productos')
 
 app.get('/', (req, res) => {
     res.send('How you doing')
@@ -13,6 +14,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoute)
 app.use('/categorias', categoriasRoute)
+app.use('/productos', productosRoute)
 
 
 
